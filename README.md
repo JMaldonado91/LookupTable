@@ -1,15 +1,16 @@
 # LookupTable
 
 A brief description of your project’s purpose.:
-A library of Tempur-Pedic mattress data, populated from various resources.
+A library of Tempur-Pedic mattress data, from 1992 to 2019.
 
 Used: 
 - Visual Studio 2017
-- MYSQL 8.0 Database
-- CSV file to fetch data to MySQL 8.0 is Lookup1.csv
+- SQLite Studio
+
 
 Run:
-- 
+- Visual Studio 2017
+- SQLite Studio
 
 
 Resources:
