@@ -12,52 +12,33 @@ using MySql.Data;
 using MySql.Data.MySqlClient;
 using System.Data.SQLite;
 using System.Data.SqlClient;
+using Dapper;
 
 namespace WindowsFormsApp1
 {
     public partial class Form1 : Form
     {
-        SQLiteConnection con;
-        SQLiteCommand cmd;
-        DataTable dt;
-        SqlDataAdapter adpt;
+        List<Mattress> mattress_lookup = new List<Mattress>();
+
 
         public Form1()
         {
             InitializeComponent();
-            
+
+            MattressLookupdataGridView1.DataSource = mattress_lookup;
+
         }
 
-        void display()
+
+        private void SetupData()
         {
             SQLiteConnection con = new SQLiteConnection("data source=mattress.db;version=3");
             con.Open();
             DataTable dt = new DataTable();
 
-            if (NameTextBox.Text.Length > 0)
-            {
-                var sda = new SQLiteDataAdapter("SELECT * FROM mattress_lookup WHERE MATTRESS LIKE '" + NameTextBox.Text + "%'", con);
-                sda.Fill(dt);
-            }
-            else if (FeelTextBox.Text.Length > 0)
-            {
-                var sda = new SQLiteDataAdapter("SELECT * FROM mattress_lookup WHERE FEEL LIKE '" + FeelTextBox.Text + "%'", con);
-                sda.Fill(dt);
-            }
-            else if (ProfileTextBox.Text.Length > 0)
-            {
-                var sda = new SQLiteDataAdapter("SELECT * FROM mattress_lookup WHERE PROFILE LIKE '" + ProfileTextBox.Text + "%'", con);
-                sda.Fill(dt);
-            }
-            else if (YearTextBox.Text.Length > 0)
-            {
-                var sda = new SQLiteDataAdapter("SELECT * FROM mattress_lookup WHERE YEAR LIKE '" + YearTextBox.Text + "%'", con);
-                sda.Fill(dt);
-            }
-            MattressLookupdataGridView1.DataSource = dt;
+            
+
         }
-
-
 
         //Text Boxes for Form, user will select one box to search data
 
@@ -66,7 +47,7 @@ namespace WindowsFormsApp1
             //DataView dvmattress_lookup = dtmattress_lookup.DefaultView;
             //dvmattress_lookup.RowFilter = "mattress LIKE '%" + NameTextBox.Text + "%'";
 
-            display();
+            SetupData();
         }
        
         private void FeelTextBox_TextChanged(object sender, EventArgs e)
@@ -74,7 +55,7 @@ namespace WindowsFormsApp1
             //DataView dvmattress_lookup = dtmattress_lookup.DefaultView;
             //dvmattress_lookup.RowFilter = "Feel LIKE '%" + FeelTextBox.Text + "%'";
 
-            display();
+            SetupData();
         }
 
         private void ProfileTextBox_TextChanged(object sender, EventArgs e)
@@ -82,7 +63,7 @@ namespace WindowsFormsApp1
             //DataView dvmattress_lookup = dtmattress_lookup.DefaultView;
             //dvmattress_lookup.RowFilter = "Profile LIKE '%" + FeelTextBox.Text + "%'";
 
-            display();
+            SetupData();
 
         }
 
@@ -91,12 +72,12 @@ namespace WindowsFormsApp1
             //DataView dvmattress_lookup = dtmattress_lookup.DefaultView;
             //dvmattress_lookup.RowFilter = "Year LIKE '%" + FeelTextBox.Text + "%'";
 
-            display();
+            SetupData();
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            MattressLookupdataGridView1.DataSource = dt;
+            MattressLookupdataGridView1.DataSource = mattress_lookup;
         }
 
         private DataTable GetMattressLookup()
@@ -120,17 +101,16 @@ namespace WindowsFormsApp1
                 return dtmattress_lookup;
         }
 
-        //When user wants to close form, they will click on Close
-
         private void closeToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            //When user wants to close form, they will click on Close
             this.Close();
         }
 
-        //When user wants to reset form, they will click on Reset
-
         private void resetToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            //When user wants to reset form, they will click on Reset
+
             NameTextBox.Clear();
             FeelTextBox.Clear();
             YearTextBox.Clear();
@@ -139,18 +119,17 @@ namespace WindowsFormsApp1
 
         private void button1_Click(object sender, EventArgs e)
         {
-            string Mattress = NameTextBox.Text;
-            string Feel = FeelTextBox.Text;
-            string Year = YearTextBox.Text;
-            string Profile = ProfileTextBox.Text;
-            
-            SQLiteConnection con = new SQLiteConnection("data source=mattress.db;version=3");
-            con.Open();
+            //Add product information to database Sqlite Studio
 
-            string Query = "insert into mattress_lookup (mattress,feel,year,profile) values ('" + NameTextBox.Text + "','" + FeelTextBox.Text + "','" + YearTextBox.Text + "','" + ProfileTextBox.Text + "')";
-            SQLiteCommand cmd = new SQLiteCommand(Query, con);
-            cmd.ExecuteNonQuery();
-            con.Close();
+            DataAccess db = new DataAccess();
+
+            db.InsertMattress(NameTextBox.Text, FeelTextBox.Text, YearTextBox.Text, ProfileTextBox.Text);
+
+            NameTextBox.Text = "";
+            FeelTextBox.Text = "";
+            YearTextBox.Text = "";
+            ProfileTextBox.Text = "";
+
         } 
     }
 }
