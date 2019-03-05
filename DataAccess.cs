@@ -4,39 +4,72 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Dapper;
+using System.Configuration;
 using System.Data;
-
+using MySql.Data;
+using System.Data.SQLite;
+using MySql.Data.MySqlClient;
+using System.IO;
 
 namespace WindowsFormsApp1
 {
     public class DataAccess
     {
-        public List<Mattress> Getmattress_lookup(string name)
+        public SQLiteConnection myConnection;
+
+        public DataAccess()
         {
-            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(Helper.CnnVal("dbx")))
+            myConnection = new SQLiteConnection("Data Source=mattress.db;Version=3;");
+            if (!File.Exists("./mattress.db;Version=3;"))
             {
-                connection.Query<Mattress>("select * from mattress_lookup where name = '{name}'").ToList();
-                var output = connection.Query<Mattress>("dbo.Mattresses_GetByname @name", new { name = name }).ToList();
-                return output;
+                SQLiteConnection.CreateFile("mattress.db;Version=3;");
+                System.Console.WriteLine("Database file created");
             }
         }
 
-        internal void InsertMattress(string name, string feel, int year, int profile)
+        public void OpenConnection()
         {
-            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(Helper.CnnVal("dbx")))
+            if (myConnection.State != System.Data.ConnectionState.Open)
             {
-                //Mattress newMattress = new Mattress { Name = name, Feel = feel, Year = year, Profile = profile };
-                List<Mattress> mattresses = new List<Mattress>();
-
-                mattresses.Add(new Mattress { name = name, feel = feel, year = year, profile = profile });
-
-                connection.Execute("dbo.Mattresses_Insert @name, @feel, @year, @profile", mattresses);
+                myConnection.Open();
             }
         }
 
-        internal void InsertMattress(string text1, string text2, string text3, string text4)
+        public void CloseConnection()
         {
-            throw new NotImplementedException();
+            if (myConnection.State != System.Data.ConnectionState.Closed)
+            {
+                myConnection.Clone();
+            }
+        }
+        public static List<mattress> LoadMattress()
+        {
+            using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
+            {
+                var output = cnn.Query<mattress>("select * from mattress_lookup", new DynamicParameters());
+                return output.ToList();
+            }
+        }
+
+        public static void InsertMattress(mattress mattress)
+        {
+            using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
+            {
+                cnn.Execute("insert into mattress_lookup (mattress, profile, feel, year) values (@mattress, @profile, @feel, @year)", mattress);
+
+                var test = "insert into mattress_lookup (mattress, profile, feel, year) values ('" + mattress.Mattress + "','" + mattress.profile + "', '" + mattress.feel + "', '" + mattress.year + "');";
+                cnn.Open();
+
+                cnn.BeginTransaction();
+                cnn.Execute(test, new DynamicParameters());
+                cnn.Close();
+
+            }
+
+        }
+        private static string LoadConnectionString(string id = "dbx")
+        {
+            return ConfigurationManager.ConnectionStrings[id].ConnectionString;
         }
     }
 }
