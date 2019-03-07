@@ -5,12 +5,14 @@ A library of Tempur-Pedic mattress data, from 1992 to 2019.
 
 Used: 
 - Visual Studio 2017
-- SQLite Studio
+- SQLite3 Studio
 
 
 Run:
 - Visual Studio 2017
-- SQLite Studio
+- SQLite3 Studio
+
+I created a windows form for users to insert mattress data- mattress name, matress feel, height of the mattress, and year we had that mattress model available. Also on the form I have a refresh button where user clicks on to load all the data and after they insert new data they will see it loaded on the form.
 
 
 Resources:
