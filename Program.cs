@@ -22,7 +22,7 @@ namespace WindowsFormsApp1
                                                [mattress] VARCHAR NOT NULL PRIMARY KEY,
                                                [feel] VARCHAR NULL,
                                                [year] INTEGER NULL,
-								               [profile] INTEGER NULL)";
+						[profile] INTEGER NULL)";
 
         private const string DatabaseFile = "mattress.db";
         private const string DatabaseSource = "data source=" + DatabaseFile;
@@ -75,14 +75,3 @@ namespace WindowsFormsApp1
             }
         }
     }
-
-
-
-
-
-
-
-
-
-
-
