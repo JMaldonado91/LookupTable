@@ -18,25 +18,33 @@ namespace WindowsFormsApp1
 {
     public partial class Form1 : Form
     {
-        List<Mattress> mattress_lookup = new List<Mattress>();
+        List<mattress> mattress_lookup = new List<mattress>();
 
 
         public Form1()
         {
             InitializeComponent();
 
-            MattressLookupdataGridView1.DataSource = mattress_lookup;
-
         }
 
+        private SQLiteConnection con;
+        private SQLiteCommand cmd;
+        private SQLiteDataAdapter DB;
+        private DataSet DS = new DataSet();
+        private DataTable DT = new DataTable();
 
-        private void SetupData()
+
+        private void LoadMattressList()
         {
-            SQLiteConnection con = new SQLiteConnection("data source=mattress.db;version=3");
-            con.Open();
-            DataTable dt = new DataTable();
+            mattress_lookup = DataAccess.LoadMattress();
 
-            
+            WiredUpMattressList();
+        }
+
+        private void WiredUpMattressList()
+        {
+            MattressLookupdataGridView1.DataSource = null;
+            MattressLookupdataGridView1.DataSource = mattress_lookup;
 
         }
 
@@ -47,23 +55,19 @@ namespace WindowsFormsApp1
             //DataView dvmattress_lookup = dtmattress_lookup.DefaultView;
             //dvmattress_lookup.RowFilter = "mattress LIKE '%" + NameTextBox.Text + "%'";
 
-            SetupData();
         }
-       
+
         private void FeelTextBox_TextChanged(object sender, EventArgs e)
         {
             //DataView dvmattress_lookup = dtmattress_lookup.DefaultView;
             //dvmattress_lookup.RowFilter = "Feel LIKE '%" + FeelTextBox.Text + "%'";
 
-            SetupData();
         }
 
         private void ProfileTextBox_TextChanged(object sender, EventArgs e)
         {
             //DataView dvmattress_lookup = dtmattress_lookup.DefaultView;
-            //dvmattress_lookup.RowFilter = "Profile LIKE '%" + FeelTextBox.Text + "%'";
-
-            SetupData();
+            //dvmattress_lookup.RowFilter = "Profile LIKE '%" + FeelTextBox.Text + "%'";  
 
         }
 
@@ -72,33 +76,6 @@ namespace WindowsFormsApp1
             //DataView dvmattress_lookup = dtmattress_lookup.DefaultView;
             //dvmattress_lookup.RowFilter = "Year LIKE '%" + FeelTextBox.Text + "%'";
 
-            SetupData();
-        }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            MattressLookupdataGridView1.DataSource = mattress_lookup;
-        }
-
-        private DataTable GetMattressLookup()
-        {
-            DataTable dtmattress_lookup = new DataTable();
-
-            string connString = ConfigurationManager.ConnectionStrings["dbx"].ConnectionString;
-
-            using (SQLiteConnection con = new SQLiteConnection(connString))
-            {
-                using (SQLiteCommand cmd = new SQLiteCommand("SELECT * FROM mattress_lookup", con))
-                {
-                    con.Open();
-
-                    SQLiteDataReader reader = cmd.ExecuteReader();
-
-                    dtmattress_lookup.Load(reader);
-                }
-            }
-
-                return dtmattress_lookup;
         }
 
         private void closeToolStripMenuItem_Click(object sender, EventArgs e)
@@ -119,17 +96,53 @@ namespace WindowsFormsApp1
 
         private void button1_Click(object sender, EventArgs e)
         {
-            //Add product information to database Sqlite Studio
+            //insert button will create new row of data
+            mattress m = new mattress();
 
-            DataAccess db = new DataAccess();
+            m.Mattress = NameTextBox.Text;
+            m.feel = FeelTextBox.Text;
+            m.year = YearTextBox.Text;
+            m.profile = ProfileTextBox.Text;
 
-            db.InsertMattress(NameTextBox.Text, FeelTextBox.Text, YearTextBox.Text, ProfileTextBox.Text);
+            DataAccess.InsertMattress(m);
 
             NameTextBox.Text = "";
             FeelTextBox.Text = "";
             YearTextBox.Text = "";
             ProfileTextBox.Text = "";
 
-        } 
+            MessageBox.Show("Record inserted successfully");
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            //refresh button will load datatable
+            LoadMattressList();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+            SQLiteConnection myConnection = new SQLiteConnection("data source=mattress.db;Version=3;");
+            myConnection = new SQLiteConnection("Data Source=mattress.db;Version=3;");
+            myConnection.Open();
+            SQLiteCommand cmd = new SQLiteCommand();
+            cmd.Connection = myConnection;
+            cmd.CommandText = "select * from mattress_lookup";
+            using (SQLiteDataReader sdr = cmd.ExecuteReader())
+            {
+                DataTable dt = new DataTable();
+                dt.Load(sdr);
+                sdr.Close();
+                myConnection.Close();
+                MattressLookupdataGridView1.DataSource = dt;
+            }
+
+        }
     }
 }
+
+
+    
+
+

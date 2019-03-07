@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.MattressLookupdataGridView1 = new System.Windows.Forms.DataGridView();
             this.NameTextBox = new System.Windows.Forms.TextBox();
@@ -43,14 +44,21 @@
             this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.resetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.Insert_btn = new System.Windows.Forms.Button();
+            this.Refresh_btn = new System.Windows.Forms.Button();
+            this.mattressBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.form1BindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.programBindingSource = new System.Windows.Forms.BindingSource(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.MattressLookupdataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.menuStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.mattressBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.form1BindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.programBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // MattressLookupdataGridView1
             // 
-            this.MattressLookupdataGridView1.AllowUserToAddRows = false;
             this.MattressLookupdataGridView1.AllowUserToDeleteRows = false;
             this.MattressLookupdataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.MattressLookupdataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -91,7 +99,7 @@
             // 
             // YearTextBox
             // 
-            this.YearTextBox.Location = new System.Drawing.Point(784, 111);
+            this.YearTextBox.Location = new System.Drawing.Point(784, 95);
             this.YearTextBox.Name = "YearTextBox";
             this.YearTextBox.Size = new System.Drawing.Size(100, 20);
             this.YearTextBox.TabIndex = 5;
@@ -99,7 +107,7 @@
             // 
             // ProfileTextBox
             // 
-            this.ProfileTextBox.Location = new System.Drawing.Point(535, 112);
+            this.ProfileTextBox.Location = new System.Drawing.Point(535, 95);
             this.ProfileTextBox.Name = "ProfileTextBox";
             this.ProfileTextBox.Size = new System.Drawing.Size(100, 20);
             this.ProfileTextBox.TabIndex = 6;
@@ -110,7 +118,7 @@
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Gotham Bold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.SystemColors.HotTrack;
-            this.label2.Location = new System.Drawing.Point(399, 114);
+            this.label2.Location = new System.Drawing.Point(399, 97);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(63, 18);
             this.label2.TabIndex = 7;
@@ -132,7 +140,7 @@
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Gotham Bold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.SystemColors.HotTrack;
-            this.label4.Location = new System.Drawing.Point(659, 111);
+            this.label4.Location = new System.Drawing.Point(659, 97);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(45, 18);
             this.label4.TabIndex = 9;
@@ -179,12 +187,48 @@
             this.resetToolStripMenuItem.Text = "&Reset";
             this.resetToolStripMenuItem.Click += new System.EventHandler(this.resetToolStripMenuItem_Click);
             // 
+            // Insert_btn
+            // 
+            this.Insert_btn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Insert_btn.Location = new System.Drawing.Point(798, 131);
+            this.Insert_btn.Name = "Insert_btn";
+            this.Insert_btn.Size = new System.Drawing.Size(75, 23);
+            this.Insert_btn.TabIndex = 12;
+            this.Insert_btn.Text = "Insert";
+            this.Insert_btn.UseVisualStyleBackColor = true;
+            this.Insert_btn.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // Refresh_btn
+            // 
+            this.Refresh_btn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Refresh_btn.Location = new System.Drawing.Point(703, 131);
+            this.Refresh_btn.Name = "Refresh_btn";
+            this.Refresh_btn.Size = new System.Drawing.Size(75, 23);
+            this.Refresh_btn.TabIndex = 13;
+            this.Refresh_btn.Text = "Refresh";
+            this.Refresh_btn.UseVisualStyleBackColor = true;
+            this.Refresh_btn.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // mattressBindingSource
+            // 
+            this.mattressBindingSource.DataSource = typeof(WindowsFormsApp1.mattress);
+            // 
+            // form1BindingSource
+            // 
+            this.form1BindingSource.DataSource = typeof(WindowsFormsApp1.Form1);
+            // 
+            // programBindingSource
+            // 
+            this.programBindingSource.DataSource = typeof(WindowsFormsApp1.Program);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.ClientSize = new System.Drawing.Size(953, 450);
+            this.Controls.Add(this.Refresh_btn);
+            this.Controls.Add(this.Insert_btn);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
@@ -203,11 +247,13 @@
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Mattress Lookup";
-            this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.MattressLookupdataGridView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.mattressBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.form1BindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.programBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -229,6 +275,17 @@
         private System.Windows.Forms.ToolStripMenuItem closeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem resetToolStripMenuItem;
+        private System.Windows.Forms.Button Insert_btn;
+        private System.Windows.Forms.BindingSource form1BindingSource;
+        private System.Windows.Forms.BindingSource programBindingSource;
+        private System.Windows.Forms.DataGridViewTextBoxColumn mattressnameDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn profileDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn feelDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn coverDataGridViewCheckBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn sizesDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn yearDataGridViewTextBoxColumn;
+        private System.Windows.Forms.BindingSource mattressBindingSource;
+        private System.Windows.Forms.Button Refresh_btn;
     }
 }
 
