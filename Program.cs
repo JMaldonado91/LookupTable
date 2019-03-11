@@ -1,17 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Configuration;
-using MySql.Data;
-using MySql.Data.MySqlClient;
 using System.Data.SQLite;
-using System.Data.SqlClient;
-using Dapper;
-using System.Data;
 using System.IO;
-using WindowsFormsApp1;
 
 namespace WindowsFormsApp1
 {
